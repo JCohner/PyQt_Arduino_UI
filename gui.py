@@ -14,64 +14,23 @@ class UI(QWidget):
         
 	def initUI(self):    
 		self.serInit()
-		#self.btnInit()
+		self.btnInit()
 		grid = QGridLayout()
 		self.setLayout(grid)
+		self.headerInit()
 
-		send_btn = QPushButton("Send it", self)
-		#send_btn.setCheckable(True)
-		send_btn.clicked[bool].connect(self.switchLight)
-		
-		return_btn = QPushButton("Return it", self)
-		#return_btn.setCheckable(True)
-		return_btn.clicked[bool].connect(self.switchLight)
-		
-		brake_btn = QPushButton("Stop it", self)
-		#return_btn.setCheckable(True)
-		brake_btn.clicked[bool].connect(self.switchLight)
-
-		on_btn = QPushButton("I", self)
-		off_btn = QPushButton("O", self)
-		on_btn.clicked[bool].connect(self.ioFunc)
-		off_btn.clicked[bool].connect(self.ioFunc)
-		ioLabelStatic = QLabel("System: ")
-		ioLabelStatic.setAlignment(Qt.AlignCenter)
-		ioLabelData = QLabel("OFF")
-		ioLabelData.setAlignment(Qt.AlignCenter)
-		ioLabel = QHBoxLayout()
-		ioLabel.addWidget(ioLabelStatic)
-		ioLabel.addWidget(ioLabelData)
-
-		self.ioLabelData = ioLabelData
-
-		self.ctrl_btns = [send_btn, return_btn, brake_btn]
-		self.send_btn = send_btn
-		self.return_btn = return_btn
-		self.brake_btn = brake_btn
-
-		self.pwr_btns = [on_btn, off_btn]
-		self.on_btn = on_btn
-		self.on_btn.setStyleSheet("background-color: grey")
-		self.off_btn = off_btn
-		self.off_btn.setStyleSheet("background-color: green")
-
-		label = QLabel("A cute little hello world app")
-		header = QHBoxLayout()
-		header.addWidget(label)
-		label.setAlignment(Qt.AlignCenter)
-		
 		controlBox = QVBoxLayout()
 		ioBox = QVBoxLayout()
 
-		controlBox.addWidget(send_btn)
-		controlBox.addWidget(return_btn)
-		controlBox.addWidget(brake_btn)
+		controlBox.addWidget(self.send_btn)
+		controlBox.addWidget(self.return_btn)
+		controlBox.addWidget(self.brake_btn)
 
-		ioBox.addWidget(on_btn)
-		ioBox.addWidget(off_btn)
-		ioBox.addLayout(ioLabel)
+		ioBox.addWidget(self.on_btn)
+		ioBox.addWidget(self.off_btn)
+		ioBox.addLayout(self.ioLabel)
 
-		grid.addLayout(header, 0, 0, 1, 2)
+		grid.addLayout(self.header, 0, 0, 1, 2)
 		grid.addLayout(controlBox, 1, 0)
 		grid.addLayout(ioBox, 1, 1)
 
@@ -128,7 +87,43 @@ class UI(QWidget):
 				btn.setStyleSheet("background-color: grey")
 
 
+	def btnInit(self):
+		send_btn = QPushButton("Send it", self)
+		#send_btn.setCheckable(True)
+		send_btn.clicked[bool].connect(self.switchLight)
 		
+		return_btn = QPushButton("Return it", self)
+		#return_btn.setCheckable(True)
+		return_btn.clicked[bool].connect(self.switchLight)
+		
+		brake_btn = QPushButton("Stop it", self)
+		#return_btn.setCheckable(True)
+		brake_btn.clicked[bool].connect(self.switchLight)
+
+		on_btn = QPushButton("I", self)
+		off_btn = QPushButton("O", self)
+		on_btn.clicked[bool].connect(self.ioFunc)
+		off_btn.clicked[bool].connect(self.ioFunc)
+		ioLabelStatic = QLabel("System: ")
+		ioLabelStatic.setAlignment(Qt.AlignCenter)
+		ioLabelData = QLabel("OFF")
+		ioLabelData.setAlignment(Qt.AlignCenter)
+		ioLabel = QHBoxLayout()
+		ioLabel.addWidget(ioLabelStatic)
+		ioLabel.addWidget(ioLabelData)
+		self.ioLabel = ioLabel
+		self.ioLabelData = ioLabelData
+
+		self.ctrl_btns = [send_btn, return_btn, brake_btn]
+		self.send_btn = send_btn
+		self.return_btn = return_btn
+		self.brake_btn = brake_btn
+
+		self.pwr_btns = [on_btn, off_btn]
+		self.on_btn = on_btn
+		self.on_btn.setStyleSheet("background-color: grey")
+		self.off_btn = off_btn
+		self.off_btn.setStyleSheet("background-color: green")
 
 	def serInit(self):
 		self.ser = serial.Serial()
@@ -137,7 +132,13 @@ class UI(QWidget):
 		self.ser.open()
 		self.ser.reset_output_buffer()
 		self.ser.write(b'b')
-		print('brakeee')
+	
+	def headerInit(self):
+		label = QLabel("Fritction? Let's Unpack That")
+		header = QHBoxLayout()
+		header.addWidget(label)
+		label.setAlignment(Qt.AlignCenter)
+		self.header = header
 
         
         
